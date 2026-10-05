@@ -3,8 +3,23 @@
   'use strict';
   var MB = (window.MB = { topics: [] });
 
-  /* The exam date drives the countdown on the home screen (YYYY-MM-DD). */
-  MB.config = { examDate: '2026-10-05', examDayName: 'Monday' };
+  /* Subjects. examDate (YYYY-MM-DD) drives the countdown on the home screen; leave it null to hide it. */
+  MB.SUBJECTS = [
+    {
+      id: 'maths', name: 'Maths', emoji: '\u2797', examDate: '2026-10-05', examDay: 'Monday',
+      hello: 'I am Ollie the owl. I will help you get ready for your maths exam.',
+      mock: '20 questions, like the real exam',
+      papers: { label: 'Worksheets', title: 'Your Worksheets', blurb: 'The questions from your papers', emoji: '\uD83D\uDCDD' }
+    },
+    {
+      id: 'evs', name: 'EVS', emoji: '\uD83C\uDF3F', examDate: null, examDay: '',
+      hello: 'I am Ollie the owl. Let\u2019s explore the mela, plants and animals from your EVS book.',
+      mock: '20 questions from all 3 chapters',
+      papers: { label: 'Book Qs', title: 'Textbook Questions', blurb: 'The Discuss, Write and Find out questions', emoji: '\uD83D\uDCD6' }
+    }
+  ];
+  MB.subjectOf = function (id) { return MB.SUBJECTS.filter(function (s) { return s.id === id; })[0] || MB.SUBJECTS[0]; };
+  MB.topicsOf = function (subject) { return MB.topics.filter(function (t) { return (t.subject || 'maths') === subject; }); };
 
   /* ---------- tiny helpers ---------- */
   MB.$ = function (s, r) { return (r || document).querySelector(s); };
@@ -34,7 +49,10 @@
     try { var raw = localStorage.getItem(KEY); return raw ? JSON.parse(raw) : {}; }
     catch (e) { return mem || {}; }
   }
-  MB.S = Object.assign({ name: '', stars: {}, seen: {}, mock: { best: 0, total: 0, runs: 0 }, papers: {}, sound: true }, load());
+  MB.S = Object.assign({ name: '', stars: {}, seen: {}, mock: { best: 0, total: 0, runs: 0 }, papers: {}, sound: true, subject: 'maths' }, load());
+  /* mock-test records are kept per subject (older saves only had the maths one) */
+  MB.S.mocks = MB.S.mocks || { maths: MB.S.mock };
+  MB.mockRec = function (subject) { return MB.S.mocks[subject] || (MB.S.mocks[subject] = { best: 0, total: 0, runs: 0 }); };
   MB.save = function () {
     try { localStorage.setItem(KEY, JSON.stringify(MB.S)); }
     catch (e) { mem = JSON.parse(JSON.stringify(MB.S)); }
@@ -43,8 +61,13 @@
   MB.addStars = function (id, n) {
     if (n > MB.getStars(id)) { MB.S.stars[id] = n; MB.save(); }
   };
-  MB.totalStars = function () {
-    var t = 0; for (var k in MB.S.stars) t += MB.S.stars[k]; return t;
+  MB.totalStars = function (subject) {
+    var t = 0;
+    for (var k in MB.S.stars) {
+      var top = MB.topics.filter(function (x) { return x.id === k; })[0];
+      if (!subject || ((top && top.subject) || 'maths') === subject) t += MB.S.stars[k];
+    }
+    return t;
   };
 
   /* ---------- number words ---------- */
@@ -191,8 +214,10 @@
   };
 
   /* ---------- exam countdown ---------- */
-  MB.daysToExam = function () {
-    var p = MB.config.examDate.split('-').map(Number);
+  MB.daysToExam = function (subject) {
+    var d = MB.subjectOf(subject || MB.S.subject).examDate;
+    if (!d) return null;
+    var p = d.split('-').map(Number);
     var exam = new Date(p[0], p[1] - 1, p[2]);
     var now = new Date(); now = new Date(now.getFullYear(), now.getMonth(), now.getDate());
     return Math.round((exam - now) / 86400000);
@@ -200,6 +225,11 @@
 
   /* ---------- small UI helpers shared by topics ---------- */
   MB.UI = {};
+  MB.cheat = {};
+  /* a card on the quick-revision page */
+  MB.UI.cheatCard = function (title, tc, body) {
+    return '<section class="card pad cheat ' + tc + '"><h3 class="h3">' + title + '</h3>' + body + '</section>';
+  };
   /* Wrap a lesson step in a card */
   MB.UI.step = function (num, title, body) {
     return '<section class="card step"><h3><span class="stepno">' + num + '</span>' + title + '</h3>' + body + '</section>';

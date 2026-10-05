@@ -117,12 +117,19 @@
   }
 
   const E = (MB.Exam = { PAPERS: PAPERS });
+  const subj = () => MB.subjectOf(MB.S.subject);
+  /* worksheets/papers for a subject. EVS papers are registered by evs-papers.js */
+  E.papersFor = function (subject) { return subject === 'evs' ? (MB.evsPapers || []) : PAPERS; };
+  const findPaper = (id) => PAPERS.concat(MB.evsPapers || []).filter(x => x.id === id)[0];
 
   /* ----- worksheets hub ----- */
   E.papers = function (root) {
-    root.innerHTML = `<section class="card pad"><h2 class="h2">📝 Your worksheets</h2>
-      <p>These are the questions from your own papers. Try each one before you look at the hint. You get two tries on every question.</p></section>
-      <div class="stack">${PAPERS.map(p => {
+    const s = subj(), list = E.papersFor(s.id);
+    const intro = s.id === 'evs'
+      ? 'These are the Discuss, Write and Find out questions from your book. <b>Say or write your own answer first</b>, then open the model answer and check yourself.'
+      : 'These are the questions from your own papers. Try each one before you look at the hint. You get two tries on every question.';
+    root.innerHTML = `<section class="card pad"><h2 class="h2">${s.papers.emoji} ${s.papers.title}</h2><p>${intro}</p></section>
+      <div class="stack">${list.map(p => {
         const best = MB.S.papers[p.id];
         return `<button type="button" class="card link paper" data-go="paper/${p.id}"><span class="pp-t"><b>${p.title}</b><small>${p.sub}</small></span>
           <span class="badge${best ? ' on' : ''}">${best ? 'Best ' + best.got + '/' + best.total : 'Not tried'}</span></button>`;
@@ -131,7 +138,7 @@
 
   /* ----- one worksheet ----- */
   E.paper = function (root, id) {
-    const p = PAPERS.filter(x => x.id === id)[0];
+    const p = findPaper(id);
     if (!p) { MB.go('papers'); return; }
     const qs = p.make();
     root.innerHTML = `<section class="card pad"><h2 class="h2">${p.title}</h2><p>${p.sub}. ${qs.length} questions. Take your time and read each question twice.</p>
@@ -145,7 +152,7 @@
           const pct = Math.round(100 * sc.got / sc.total), v = verdict(pct), wrong = results.filter(r => !r.ok);
           if (pct >= 80) { MB.sfx.win(); MB.confetti(); } else MB.sfx.ok();
           $('#quizhost', root).innerHTML = `<section class="card pad result"><div class="big-emoji" aria-hidden="true">${v[0]}</div><h2 class="h2">${v[1]}</h2>
-            <p class="score"><b>${sc.got}</b> out of <b>${sc.total}</b> marks</p><p>${v[2]}</p>
+            <p class="score"><b>${sc.got}</b> out of <b>${sc.total}</b> ${qs.some(q => q.marks) ? 'marks' : 'questions'}</p><p>${v[2]}</p>
             <div class="row"><button type="button" class="btn" data-go="paper/${id}">Do it again ↻</button><button type="button" class="btn ghost" data-go="papers">All papers</button></div></section>
             ${wrong.length ? `<section class="card pad"><h3 class="h3">Let’s look at the ones to learn from</h3>${Q.reviewHTML(wrong)}</section>` : '<section class="card pad"><p>🎉 Every question was right. Wonderful!</p></section>'}`;
         }
@@ -154,28 +161,32 @@
   };
 
   /* ----- mock test ----- */
-  E.buildMock = function () {
+  E.mockCount = function (subject) { return MB.topicsOf(subject).reduce((n, t) => n + t.mock, 0); };
+  E.buildMock = function (subject) {
+    subject = subject || MB.S.subject;
     const qs = [];
-    MB.topics.forEach(t => {
-      MB.sample(t.gen(), t.mock).forEach(q => { q.topic = t.id; q.marks = 1; qs.push(q); });
+    MB.topicsOf(subject).forEach(t => {
+      /* topics with a question bank get a balanced mix; the maths topics sample their 8-question set */
+      const pick = t.bank ? MB.G.pickMix(t.bank(), t.mock) : MB.sample(t.gen(), t.mock);
+      pick.forEach(q => { q.topic = t.id; q.marks = 1; qs.push(q); });
     });
     return qs;
   };
   E.mock = function (root) {
-    const m = MB.S.mock;
+    const s = subj(), m = MB.mockRec(s.id), n = E.mockCount(s.id);
     root.innerHTML = `<section class="card pad"><h2 class="h2">🎯 Mock test</h2>
-      <p>A pretend exam with <b>20 questions</b> from every topic. Just like the real thing:</p>
-      <ul class="ticks"><li>No hints and only <b>one try</b> for each question.</li><li>You find out your score at the end.</li><li>You can skip a question if you are stuck.</li></ul>
+      <p>A pretend exam with <b>${n} questions</b> from ${s.id === 'evs' ? 'all three chapters' : 'every topic'}. Just like the real thing:</p>
+      <ul class="ticks"><li>No hints and only <b>one try</b> for each question.</li><li>You find out your score at the end.</li><li>You can skip a question if you are stuck.</li>${s.id === 'evs' ? '<li>For short-answer questions, you mark yourself with the model answer.</li>' : ''}</ul>
       ${m.runs ? `<p class="note">Your best so far: <b>${m.best}/${m.total}</b> (${m.runs} ${m.runs === 1 ? 'try' : 'tries'})</p>` : ''}
       <button type="button" class="btn big" data-a="start">I’m ready! Start ▶</button></section><div id="quizhost"></div>`;
     $('[data-a=start]', root).addEventListener('click', function () {
-      const qs = E.buildMock();
+      const qs = E.buildMock(s.id);
       $('.card.pad', root).hidden = true;
-      Q.run($('#quizhost', root), qs, { mode: 'mock', onDone: results => mockDone(root, results) });
+      Q.run($('#quizhost', root), qs, { mode: 'mock', onDone: results => mockDone(root, results, s.id) });
     });
   };
-  function mockDone(root, results) {
-    const sc = scoreOf(results), pct = Math.round(100 * sc.got / sc.total), v = verdict(pct), m = MB.S.mock;
+  function mockDone(root, results, subject) {
+    const sc = scoreOf(results), pct = Math.round(100 * sc.got / sc.total), v = verdict(pct), m = MB.mockRec(subject);
     m.runs = (m.runs || 0) + 1;
     if (sc.got >= (m.best || 0) || !m.total) { m.best = sc.got; m.total = sc.total; }
     MB.save();
@@ -183,7 +194,7 @@
     const by = {};
     results.forEach(r => { const t = r.q.topic; by[t] = by[t] || { got: 0, n: 0 }; by[t].n++; if (r.ok) by[t].got++; });
     const wrong = results.filter(r => !r.ok);
-    const rows = MB.topics.map(t => {
+    const rows = MB.topicsOf(subject).map(t => {
       const x = by[t.id]; if (!x) return '';
       const full = x.got === x.n;
       return `<li class="${full ? 'ok' : 'no'}"><span>${t.emoji} ${t.title}</span><b>${x.got}/${x.n}</b>${full ? '<span class="ok-tick">✓</span>' : `<button type="button" class="chip" data-go="t/${t.id}">Review</button>`}</li>`;
@@ -191,22 +202,22 @@
     $('#quizhost', root).innerHTML = `<section class="card pad result"><div class="big-emoji" aria-hidden="true">${v[0]}</div><h2 class="h2">${v[1]}</h2>
       <p class="score"><b>${sc.got}</b> out of <b>${sc.total}</b> (${pct}%)</p><p>${v[2]}</p>
       <div class="meter" role="img" aria-label="${pct} percent"><span style="width:${pct}%"></span></div></section>
-      <section class="card pad"><h3 class="h3">How did each topic go?</h3><ul class="bytopic">${rows}</ul></section>
+      <section class="card pad"><h3 class="h3">How did each ${subject === 'evs' ? 'chapter' : 'topic'} go?</h3><ul class="bytopic">${rows}</ul></section>
       ${wrong.length ? `<section class="card pad"><h3 class="h3">Questions to learn from</h3>${Q.reviewHTML(wrong)}
         <button type="button" class="btn" data-a="fix">Practise these again</button></section>` : '<section class="card pad"><p>🎉 Every question was right. Wonderful!</p></section>'}
       <div class="row"><button type="button" class="btn ghost" data-go="mock">Take a new mock test ↻</button></div>`;
     const fix = $('[data-a=fix]', root);
     if (fix) fix.addEventListener('click', function () {
-        const redo = wrong.map(r => r.q);
-        Q.run($('#quizhost', root), redo, {
-          mode: 'practice', onDone: res => {
-            const ok = res.filter(r => r.ok).length;
-            if (ok === res.length) { MB.sfx.win(); MB.confetti(); }
-            $('#quizhost', root).innerHTML = `<section class="card pad result"><div class="big-emoji" aria-hidden="true">${ok === res.length ? '🎉' : '💪'}</div>
-              <h2 class="h2">${ok} of ${res.length} fixed!</h2><p>${ok === res.length ? 'You corrected every mistake. That is how we get better!' : 'Nice try. Look at the answers again, then take another mock test.'}</p>
-              <div class="row"><button type="button" class="btn" data-go="mock">New mock test</button><button type="button" class="btn ghost" data-go="home">Home</button></div></section>`;
-          }
-        });
+      const redo = wrong.map(r => r.q);
+      Q.run($('#quizhost', root), redo, {
+        mode: 'practice', onDone: res => {
+          const ok = res.filter(r => r.ok).length;
+          if (ok === res.length) { MB.sfx.win(); MB.confetti(); }
+          $('#quizhost', root).innerHTML = `<section class="card pad result"><div class="big-emoji" aria-hidden="true">${ok === res.length ? '🎉' : '💪'}</div>
+            <h2 class="h2">${ok} of ${res.length} fixed!</h2><p>${ok === res.length ? 'You corrected every mistake. That is how we get better!' : 'Nice try. Look at the answers again, then take another mock test.'}</p>
+            <div class="row"><button type="button" class="btn" data-go="mock">New mock test</button><button type="button" class="btn ghost" data-go="home">Home</button></div></section>`;
+        }
+      });
     });
   }
 })();

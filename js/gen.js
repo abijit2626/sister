@@ -41,5 +41,51 @@
     return 274;
   };
   G.fmt = function (n) { return '<b>' + n + '</b>'; };
+
+  /* ---- helpers for text subjects (EVS) ---- */
+  G.tf = function (prompt, truth, extra) {
+    return Object.assign({ kind: 'choice', prompt: prompt, options: ['True', 'False'], ans: truth ? 0 : 1, cols: 2, big: true }, extra || {});
+  };
+  /* fill in one or more accepted words. ans may be a string or an array of accepted spellings */
+  G.word = function (prompt, ans, extra) {
+    var a = [].concat(ans);
+    return Object.assign({ kind: 'fill', prompt: prompt, blanks: [{ kind: 'text', ans: a, w: Math.max(8, a[0].length) }] }, extra || {});
+  };
+  /* match pairs: pairs = [[leftHtml, rightHtml], ...] */
+  G.match = function (prompt, pairs, extra) {
+    var left = pairs.map(function (p, i) { return { id: 'm' + i, html: p[0] }; });
+    var right = MB.shuffle(pairs.map(function (p, i) { return { id: 'm' + i, html: p[1] }; }));
+    return Object.assign({ kind: 'match', prompt: prompt, left: left, right: right }, extra || {});
+  };
+  /* sort items into groups: cats = [{id,label}], items = [[html, catId], ...] */
+  G.sort = function (prompt, cats, items, extra) {
+    return Object.assign({
+      kind: 'sort', prompt: prompt, cats: cats,
+      items: items.map(function (it, i) { return { id: 's' + i, html: it[0], cat: it[1] }; })
+    }, extra || {});
+  };
+  /* put steps in the order they happen. seq is the correct order */
+  G.order = function (prompt, seq, extra) {
+    var items = MB.shuffle(seq), n = 0;
+    while (items.every(function (x, i) { return x === seq[i]; }) && n++ < 20) items = MB.shuffle(seq);
+    return Object.assign({ kind: 'order', prompt: prompt, seq: seq, items: items }, extra || {});
+  };
+  /* short answer you check yourself against a model answer */
+  G.self = function (prompt, model, extra) {
+    return Object.assign({ kind: 'self', prompt: prompt, model: model, single: true, hint: 'Think about the lesson, then compare with the model answer.' }, extra || {});
+  };
+  /* choose n questions with a good mix: mostly objective, up to 2 interactive, 1 short answer last */
+  G.pickMix = function (bank, n) {
+    var obj = [], inter = [], self = [];
+    MB.shuffle(bank).forEach(function (q) {
+      (q.kind === 'self' ? self : (q.kind === 'match' || q.kind === 'sort' || q.kind === 'order' || q.kind === 'pick') ? inter : obj).push(q);
+    });
+    var nSelf = n >= 5 && self.length ? 1 : 0, nInter = Math.min(inter.length, n >= 6 ? 2 : (n >= 3 ? 1 : 0));
+    var out = obj.slice(0, n - nSelf - nInter);
+    var rest = obj.slice(out.length).concat(inter.slice(nInter), self.slice(nSelf));
+    out = out.concat(inter.slice(0, nInter));
+    while (out.length < n - nSelf && rest.length) out.push(rest.shift());
+    return out.concat(self.slice(0, nSelf));
+  };
   G.minus = '−';
 })();
