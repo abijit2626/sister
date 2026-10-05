@@ -7,11 +7,11 @@
 
   /* ---------- tomato plant diagram ---------- */
   const PARTS = {
-    roots: { name: 'Roots', note: 'Roots grow down <b>under the ground</b>, in the soil.' },
-    stem: { name: 'Stem', note: 'The stem <b>holds the plant up</b>. Branches grow out of it.' },
-    leaf: { name: 'Leaf', note: 'Leaves are <b>green</b>. They grow on the stem and the branches.' },
-    flower: { name: 'Flower', note: 'Flowers grow on the plant. A tomato flower is <b>yellow</b>.' },
-    fruit: { name: 'Fruit', note: 'The <b>tomato</b> is the fruit of the plant.' },
+    roots: { name: 'Roots', note: 'Roots grow <b>under the ground</b>. They <b>hold the plant firmly in the soil</b> and <b>absorb water and minerals</b>.' },
+    stem: { name: 'Stem', note: 'The stem <b>holds the plant upright</b>. Branches grow out of it.' },
+    leaf: { name: 'Leaf', note: 'Leaves are green. They <b>prepare food for the plant</b>.' },
+    flower: { name: 'Flower', note: 'The flower is the <b>colourful part</b> that <b>attracts insects</b>. It <b>develops into a fruit</b>.' },
+    fruit: { name: 'Fruit', note: 'The fruit <b>protects the seeds</b>. The tomato is the fruit of the plant.' },
     seed: { name: 'Seed', note: 'Seeds are <b>inside the fruit</b>. A seed can grow into a new plant.' }
   };
   const RING = {
@@ -75,23 +75,23 @@
 
   /* ---------- the six kinds of plants ---------- */
   const KINDS = {
-    tree: { label: 'Tree', emoji: '🌳', plants: ['Mango', 'Coconut', 'Banyan', 'Khejri', 'Amaltas', 'Jackfruit', 'Peepal', 'Chinar', 'Jamun'], short: 'It has a big trunk of wood and many branches.' },
+    tree: { label: 'Tree', emoji: '🌳', plants: ['Mango', 'Coconut', 'Banyan', 'Khejri', 'Amaltas', 'Jackfruit', 'Peepal', 'Chinar', 'Jamun', 'Apple'], short: 'It has a big trunk of wood and many branches.' },
     shrub: { label: 'Shrub', emoji: '🌹', plants: ['Hibiscus', 'Rose', 'Holy Basil (tulsi)', 'Curry leaf'], short: 'It is medium-sized with several woody stems close to the ground.' },
     herb: { label: 'Herb', emoji: '🌿', plants: ['Mint', 'Tomato', 'Coriander', 'Mustard'], short: 'It is a smaller plant with a soft stem that does not become woody.' },
     grass: { label: 'Grass', emoji: '🌾', plants: ['Wild grass', 'Paddy (rice)', 'Wheat', 'Bajra', 'Jowar', 'Ragi', 'Sugarcane', 'Bamboo'], short: 'Its leaves are thin and flat and its stem is hollow.' },
-    climber: { label: 'Climber', emoji: '🧗', plants: ['Money plant', 'Jasmine', 'Bottle gourd'], short: 'It has a thin, flexible stem and climbs on other plants for support.' },
+    climber: { label: 'Climber', emoji: '🧗', plants: ['Money plant', 'Jasmine', 'Bottle gourd', 'Grape vine'], short: 'It has a thin, flexible stem and climbs on other plants for support.' },
     creeper: { label: 'Creeper', emoji: '🎃', plants: ['Watermelon', 'Pumpkin'], short: 'It has a thin, flexible stem and creeps along the ground.' }
   };
-  const EMO = { Mango: '🥭', Coconut: '🥥', Banyan: '🌳', Peepal: '🌳', Rose: '🌹', Hibiscus: '🌺', Tomato: '🍅', Wheat: '🌾', 'Paddy (rice)': '🌾', Bamboo: '🎋', Sugarcane: '🎋', Jasmine: '🌼', Watermelon: '🍉', Pumpkin: '🎃', Mint: '🌿', Coriander: '🌿', 'Money plant': '🌱' };
+  const EMO = { Apple: '\uD83C\uDF4E', 'Grape vine': '\uD83C\uDF47', Mango: '🥭', Coconut: '🥥', Banyan: '🌳', Peepal: '🌳', Rose: '🌹', Hibiscus: '🌺', Tomato: '🍅', Wheat: '🌾', 'Paddy (rice)': '🌾', Bamboo: '🎋', Sugarcane: '🎋', Jasmine: '🌼', Watermelon: '🍉', Pumpkin: '🎃', Mint: '🌿', Coriander: '🌿', 'Money plant': '🌱' };
   const kindOf = (p) => Object.keys(KINDS).filter(k => KINDS[k].plants.indexOf(p) >= 0)[0];
 
   const KIND_CARDS = [
-    { emoji: '🌳', title: 'Trees', text: 'A <u>big trunk of wood</u> and many <u>branches</u> that spread out with leaves. Roots go <b>deep down into the soil</b>.<br><i>Mango, Coconut, Banyan, Khejri, Amaltas, Jackfruit, Peepal, Chinar.</i>' },
-    { emoji: '🌹', title: 'Shrubs', text: '<u>Medium-sized</u> plants with <u>several woody stems</u> and branches growing <u>close to the ground</u>. They look bushy.<br><i>Hibiscus, Rose, Holy Basil (tulsi), Curry leaf.</i>' },
-    { emoji: '🌿', title: 'Herbs', text: '<u>Smaller</u> plants with <u>soft stems</u> that do <u>not become woody</u>.<br><i>Mint, Tomato, Coriander, Mustard.</i>' },
+    { emoji: '🌳', title: 'Trees', text: '<u>Big and strong plants with a thick stem</u>: a big trunk of wood and many <u>branches</u> that spread out with leaves. Roots go <b>deep down into the soil</b>.<br><i>Mango, Apple, Coconut, Banyan, Khejri, Amaltas, Jackfruit, Peepal, Chinar.</i>' },
+    { emoji: '🌹', title: 'Shrubs', text: '<u>Small, bushy plants</u> (medium-sized) with <u>several woody stems</u> and branches growing <u>close to the ground</u>.<br><i>Tulsi (Holy Basil), Rose, Hibiscus, Curry leaf.</i>' },
+    { emoji: '🌿', title: 'Herbs', text: '<u>Small plants with a green, soft stem</u> that does <u>not become woody</u>.<br><i>Mint, Tomato, Coriander, Mustard.</i>' },
     { emoji: '🌾', title: 'Grasses', text: 'Grasses are <b>types of herbs</b>. Their leaves are <u>thin and flat</u> and their stems are <u>hollow</u>.<br><i>Wild grasses, paddy, wheat, bajra, jowar, ragi, sugarcane, bamboo.</i>' },
-    { emoji: '🧗', title: 'Climbers', text: 'Thin, flexible stems. They <u>climb on other plants</u> for support. Some climbers even take their food from the plant they climb.<br><i>Money plant, Jasmine, Bottle gourd.</i>' },
-    { emoji: '🎃', title: 'Creepers', text: 'Thin, flexible stems. They <u>creep along the ground</u>.<br><i>Watermelon, Pumpkin.</i>' }
+    { emoji: '🧗', title: 'Climbers', text: 'Plants that <u>need support to grow upward</u>. They climb on other plants. Some climbers even take their food from the plant they climb.<br><i>Money plant, Grape vine, Jasmine, Bottle gourd.</i>' },
+    { emoji: '🎃', title: 'Creepers', text: 'Plants that <u>grow along the ground</u>. They have thin, flexible stems.<br><i>Pumpkin, Watermelon.</i>' }
   ];
 
   const WALK = [
@@ -127,7 +127,7 @@
     { label: 'I cannot stand up by myself, so I climb on other plants.', cat: 'climber', why: 'Climbers climb on other plants for support.' },
     { label: 'I spread along the ground because I have a thin stem.', cat: 'creeper', why: 'Creepers creep along the ground.' }
   ];
-  const NAME_ITEMS = ['Mango', 'Banyan', 'Peepal', 'Coconut', 'Rose', 'Hibiscus', 'Holy Basil (tulsi)', 'Curry leaf', 'Mint', 'Coriander', 'Wheat', 'Bamboo', 'Money plant', 'Jasmine', 'Watermelon', 'Pumpkin']
+  const NAME_ITEMS = ['Mango', 'Apple', 'Banyan', 'Peepal', 'Coconut', 'Rose', 'Hibiscus', 'Holy Basil (tulsi)', 'Curry leaf', 'Mint', 'Coriander', 'Wheat', 'Bamboo', 'Money plant', 'Grape vine', 'Jasmine', 'Watermelon', 'Pumpkin']
     .map(p => ({ label: p, emoji: EMO[p] || '', cat: kindOf(p), why: p + ' is a ' + KINDS[kindOf(p)].label.toLowerCase() + '. ' + KINDS[kindOf(p)].short }));
 
   /* ---------- question bank ---------- */
@@ -189,37 +189,67 @@
       [['Money plant', 'climber'], ['Jasmine', 'climber'], ['Bottle gourd', 'climber'], ['Watermelon', 'creeper'], ['Pumpkin', 'creeper']],
       { hint: 'Climbers climb up. Creepers spread along the ground.', explain: 'Money plant, jasmine and bottle gourd are climbers. Watermelon and pumpkin are creepers.' }));
 
-    q.push(G.self('What is a tree?', 'A tree has a <b>big trunk of wood</b> and many <b>branches</b> that spread out with leaves. Its <b>roots go deep</b> down into the soil. Examples: mango, banyan, peepal.'));
-    q.push(G.self('What is a shrub?', 'Shrubs are <b>medium-sized plants</b> with <b>several woody stems</b> and branches growing <b>close to the ground</b>. Examples: rose, hibiscus, tulsi.'));
-    q.push(G.self('What is a herb? Name two herbs.', 'Herbs are <b>smaller plants</b> with <b>soft stems</b> that do <b>not become woody</b>. Examples: mint, tomato, coriander, mustard. Grasses are types of herbs.'));
     q.push(G.self('How are climbers different from creepers?', '<b>Climbers</b> climb on other plants for support (money plant, jasmine). <b>Creepers</b> creep along the ground (pumpkin, watermelon). Both have thin, flexible stems.'));
     q.push(G.self('Name the parts of a plant.', 'The parts of a plant are the <b>roots, stem, leaves, flowers, fruits and seeds</b>.'));
     q.push(G.self('Why does a money plant climb on other things?', 'A money plant has a <b>long and thin stem</b> and <b>cannot stand up by itself</b>. If it finds nothing to climb on, it creeps and spreads on the ground.'));
     q.push(G.self('What are grains and pulses? Give examples.', '<b>Grains</b> like paddy (rice), wheat, bajra, jowar and ragi are seeds of large <b>grasses</b>. <b>Pulses</b> like toor, masoor, moong and urad are seeds of <b>shrubs</b>.'));
+    q.push(C('What do plants need to grow?', 'Air, water, sunlight and nutrients', ['Only toys and sweets', 'Darkness and ice', 'Only sand'], { cols: 1, hint: 'Plants are living things.', explain: 'Plants are living things. They need <b>air, water, sunlight and nutrients</b> to grow.' }));
+    q.push(G.tf('Plants are living things.', true, { hint: 'Plants grow and need food, air and water.', explain: 'Yes, plants are <b>living things</b>.' }));
+    const fn = (prompt, right, key) => C(prompt, right, MB.sample(Object.keys(PARTS).filter(k => k !== key).map(k => PARTS[k].name), 3), { cols: 2, hint: 'Think about the job each part of the plant does.', explain: PARTS[key].note.replace(/<\/?b>/g, '') });
+    q.push(fn('Which part of the plant holds it upright?', 'Stem', 'stem'));
+    q.push(fn('Which part of the plant absorbs water and minerals from the soil?', 'Roots', 'roots'));
+    q.push(fn('Which part of the plant holds it firmly in the soil?', 'Roots', 'roots'));
+    q.push(fn('Which part of the plant prepares food?', 'Leaf', 'leaf'));
+    q.push(fn('Which colourful part of the plant attracts insects?', 'Flower', 'flower'));
+    q.push(fn('Which part of the plant develops into a fruit?', 'Flower', 'flower'));
+    q.push(fn('Which part of the plant protects the seeds?', 'Fruit', 'fruit'));
+    q.push(G.match('Match each part of the plant with its job.', [
+      ['Roots', 'Hold the plant in the soil and absorb water'], ['Stem', 'Holds the plant upright'], ['Leaf', 'Prepares food for the plant'],
+      ['Flower', 'Attracts insects and becomes a fruit'], ['Fruit', 'Protects the seeds']
+    ], { hint: 'Think about what each part does for the plant.', explain: 'Roots absorb water, the stem holds the plant up, leaves make food, flowers attract insects and become fruits, and fruits protect the seeds.' }));
+    MB.NB.questions('plants').forEach(x => q.push(x));
     return q;
   }
 
   /* ---------- the lesson ---------- */
+  const NEEDS = [
+    { emoji: '💨', title: 'Air', text: 'Plants need <b>air</b> to grow.' },
+    { emoji: '💧', title: 'Water', text: 'Plants need <b>water</b> to grow.' },
+    { emoji: '☀️', title: 'Sunlight', text: 'Plants need <b>sunlight</b> to grow.' },
+    { emoji: '🌱', title: 'Nutrients', text: 'Plants need <b>nutrients</b> from the soil to grow.' }
+  ];
+  const JOBS = [
+    { emoji: '🧬', title: 'Roots', text: 'Roots <b>hold the plant firmly in the soil</b> and <b>absorb water and minerals</b>.' },
+    { emoji: '🌿', title: 'Stem', text: 'The stem <b>holds the plant upright</b>.' },
+    { emoji: '🍃', title: 'Leaf', text: 'Leaves <b>prepare food for the plant</b>.' },
+    { emoji: '🌼', title: 'Flower', text: 'The flower is the <b>colourful part that attracts insects</b>. It <b>develops into a fruit</b>.' },
+    { emoji: '🍅', title: 'Fruit', text: 'The fruit <b>protects the seeds</b>. Fruits contain seeds.' }
+  ];
+
   function learn(root) {
     root.innerHTML =
-      UI.step(1, 'A walk with Gopu, Simmi and Raj', '<p>Meet three friends who love plants. Tap <b>Next</b>.</p><div data-w="walk"></div>') +
-      UI.step(2, 'Six kinds of plants', '<p>Tap each card. The <u>underlined</u> words are the ones to remember for your exam.</p><div data-w="kinds"></div>') +
-      UI.step(3, 'Tree, shrub or herb?', `<div class="tablewrap"><table class="ft cmp3"><thead><tr><th></th><th>🌳 Tree</th><th>🌹 Shrub</th><th>🌿 Herb</th></tr></thead><tbody>
-        <tr><th>Size</th><td>Big, tall</td><td>Medium</td><td>Smaller</td></tr>
-        <tr><th>Stem</th><td>Big trunk of wood</td><td>Several woody stems</td><td>Soft, not woody</td></tr>
+      UI.step(1, 'What is a plant?', '<div class="callout"><b>Plants are living things.</b> They need <b>air, water, sunlight and nutrients</b> to grow.</div><p>Tap each card.</p><div data-w="needs"></div>') +
+      UI.step(2, 'A walk with Gopu, Simmi and Raj', '<p>Meet three friends who love plants. Tap <b>Next</b>.</p><div data-w="walk"></div>') +
+      UI.step(3, 'Six kinds of plants', '<p>Tap each card. The <u>underlined</u> words are the ones to remember for your exam.</p><div data-w="kinds"></div>') +
+      UI.step(4, 'Tree, shrub or herb?', `<div class="tablewrap"><table class="ft cmp3"><thead><tr><th></th><th>🌳 Tree</th><th>🌹 Shrub</th><th>🌿 Herb</th></tr></thead><tbody>
+        <tr><th>Size</th><td>Big and strong</td><td>Small, bushy</td><td>Small</td></tr>
+        <tr><th>Stem</th><td>Thick stem, big trunk of wood</td><td>Several woody stems</td><td>Soft, green, not woody</td></tr>
         <tr><th>Branches</th><td>Many, spread out</td><td>Close to the ground</td><td>Few or none</td></tr>
-        <tr><th>Examples</th><td>Mango, Banyan, Peepal</td><td>Rose, Hibiscus, Tulsi</td><td>Mint, Tomato, Coriander</td></tr></tbody></table></div>`) +
-      UI.step(4, 'Which kind am I?', '<p>Read the clue. Which kind of plant is it?</p><div data-w="clues"></div>') +
-      UI.step(5, 'Sort the plants', '<p>Now sort real plants into their kinds.</p><div data-w="names"></div>') +
-      UI.step(6, 'Parts of a plant', '<p>A plant has roots, a stem, leaves, flowers, fruits and seeds. Look at a <b>tomato plant</b>.</p><div data-w="parts"></div>') +
-      UI.step(7, 'Do you know?', '<div data-w="facts"></div>') +
-      UI.step(8, 'Get to know barks', '<p><b>Bark</b> is the hard outer covering of a tree trunk. Here is how to make a bark rubbing. Put the steps in order.</p><div data-w="bark"></div>') +
-      UI.step(9, 'Quick check', '<div data-w="try"></div>');
+        <tr><th>Examples</th><td>Mango, Apple, Banyan</td><td>Tulsi, Rose</td><td>Mint, Tomato</td></tr></tbody></table></div>`) +
+      UI.step(5, 'Which kind am I?', '<p>Read the clue. Which kind of plant is it?</p><div data-w="clues"></div>') +
+      UI.step(6, 'Sort the plants', '<p>Now sort real plants into their kinds.</p><div data-w="names"></div>') +
+      UI.step(7, 'Parts of a plant', '<p>A plant has roots, a stem, leaves, flowers, fruits and seeds. Tap a part of the <b>tomato plant</b> to see its job.</p><div data-w="parts"></div>') +
+      UI.step(8, 'The job of each part', '<p>Tap each card. These are the answers for your notebook.</p><div data-w="jobs"></div>') +
+      UI.step(9, 'Do you know?', '<div data-w="facts"></div>') +
+      UI.step(10, 'Get to know barks', '<p><b>Bark</b> is the hard outer covering of a tree trunk. Here is how to make a bark rubbing. Put the steps in order.</p><div data-w="bark"></div>') +
+      UI.step(11, 'Quick check', '<div data-w="try"></div>');
+    W.cards($('[data-w=needs]', root), NEEDS, {});
     W.story($('[data-w=walk]', root), WALK);
     W.cards($('[data-w=kinds]', root), KIND_CARDS, { cols: 1 });
     W.sortGame($('[data-w=clues]', root), { items: CLUES, cats: KIND_CATS, n: 6, noun: 'Clue', ask: 'Which kind of plant am I?' });
     W.sortGame($('[data-w=names]', root), { items: NAME_ITEMS, cats: KIND_CATS, n: 8, noun: 'Plant', ask: 'Which kind of plant is this?' });
     plantExplorer($('[data-w=parts]', root));
+    W.cards($('[data-w=jobs]', root), JOBS, { cols: 1 });
     W.cards($('[data-w=facts]', root), FACTS, { cols: 1 });
     W.orderGame($('[data-w=bark]', root), { seq: BARK });
     W.tryIt($('[data-w=try]', root), () => G.pickMix(bank(), 3), TC);

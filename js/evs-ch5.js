@@ -64,7 +64,7 @@
   ];
 
   const RAIN = [
-    { emoji: '🌧️', title: 'It rains', text: 'When it rains, the soil gets wet. Small animals like <b>earthworms and millipedes</b> may appear.', point: 'After rain: earthworms and millipedes may appear.' },
+    { emoji: '🌧️', title: 'It rains', text: 'When it rains, the soil gets wet. <b>Soil can change its look, feel and smell after rain.</b> Small animals like <b>earthworms and millipedes</b> may appear.', point: 'After rain the soil changes its look, feel and smell. Earthworms and millipedes may appear.' },
     { emoji: '🌱', title: 'More plants grow', text: 'In the monsoon you may find <b>many more plants and animals</b> around. You may find more grasses and other plants growing in the soil.', point: 'In the monsoon there are more plants and animals.' },
     { emoji: '❓', title: 'Where did they come from?', text: 'Seeds of plants can stay in the soil for a long time. They <b>sprout when it rains</b>. Some insects also <b>wait for the rains</b> to come out of the soil. That is why we could not see them earlier.', point: 'Seeds sprout in the rain. Some insects wait for the rain.' }
   ];
@@ -115,7 +115,6 @@
     q.push(C('Which small animals may appear in the soil when it rains?', 'Earthworms and millipedes', ['Elephants and camels', 'Owls and crows', 'Leopards and bats'], { cols: 1, hint: 'They live in the soil.', explain: '<b>Earthworms and millipedes</b> may appear.' }));
     q.push(C('How does a pigeon sound?', 'Gutru Gu', ['Quack quack', 'Hoo hoo', 'Meow'], { cols: 2, hint: 'Look at the table on page 69.', explain: 'The pigeon says <b>“Gutru Gu”</b>.' }));
     q.push(C('How can you hear bird sounds more clearly?', 'Cup your ears with your hands and face the sound', ['Cover your ears', 'Close your eyes and sing', 'Clap loudly'], { cols: 1, hint: 'The picture shows a boy with his hand near his ear.', explain: 'Cup your ears with your hands and point your face towards the sound.' }));
-    q.push(G.word('Soil is the topmost layer of the Earth’s ___.', ['surface'], { hint: 'It is the outside layer.', explain: 'Soil is the topmost layer of the Earth’s <b>surface</b>.' }));
     q.push(G.word('Soil is made from ___ that have broken up into tiny pieces.', ['rocks', 'rock'], { hint: 'They are very hard and big at first.', explain: 'Soil is made from <b>rocks</b> broken into tiny pieces.' }));
     q.push(G.word('Birds use plants for food, shelter and ___.', ['resting', 'rest'], { hint: 'It is what you do on a bed.', explain: 'Animals use plants for food, shelter and <b>resting</b>.' }));
     q.push(G.word('Seeds in the soil ___ when it rains.', ['sprout', 'grow'], { hint: 'A tiny plant comes out of the seed.', explain: 'Seeds <b>sprout</b> when it rains.' }));
@@ -151,10 +150,10 @@
 
     q.push(G.self('Why do animals choose to live near plants?', 'Plants give animals <b>food</b> (leaves, fruits, nectar), <b>shelter</b> (hollows, branches, twigs for nests) and a place to <b>rest</b> and bring up their young.'));
     q.push(G.self('Give two examples of how birds or animals use plants.', 'Examples: <b>camels eat leaves</b>; <b>monkeys eat fruits</b>; <b>owls use tree hollows</b> for their young; <b>squirrels and crows use twigs</b> to build nests; <b>tailorbirds stitch leaves</b> to make nests; sunbirds and butterflies drink nectar.'));
-    q.push(G.self('What is soil made of?', 'Soil is the topmost layer of the Earth’s surface. It is made from <b>rocks that have broken up into tiny pieces</b>, <b>old leaves, roots and stems</b>, and <b>living and dead animals</b> like insects.'));
     q.push(G.self('In the monsoon you find many new plants and animals. Where did they come from? Why could you not see them earlier?', '<b>Seeds</b> of plants can stay in the soil for a long time and <b>sprout when it rains</b>. Some <b>insects wait for the rains</b> to come out of the soil. So we could not see them earlier.'));
     q.push(G.self('Name four small animals you may find on or in the soil.', 'On the top layer: <b>ants, termites, small beetles and grasshoppers</b>. After rain: <b>earthworms and millipedes</b> may also appear.'));
     q.push(G.self('How can you listen to bird sounds more clearly?', 'Close your eyes and listen. <b>Cup your ears with your hands</b> and <b>point your face towards the direction of the sound</b>.'));
+    MB.NB.questions('pa').forEach(x => q.push(x));
     return q;
   }
 

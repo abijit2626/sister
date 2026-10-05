@@ -80,7 +80,7 @@
     MB.shuffle(bank).forEach(function (q) {
       (q.kind === 'self' ? self : (q.kind === 'match' || q.kind === 'sort' || q.kind === 'order' || q.kind === 'pick') ? inter : obj).push(q);
     });
-    var nSelf = n >= 5 && self.length ? 1 : 0, nInter = Math.min(inter.length, n >= 6 ? 2 : (n >= 3 ? 1 : 0));
+    var nSelf = Math.min(self.length, n >= 8 ? 2 : (n >= 5 ? 1 : 0)), nInter = Math.min(inter.length, n >= 6 ? 2 : (n >= 3 ? 1 : 0));
     var out = obj.slice(0, n - nSelf - nInter);
     var rest = obj.slice(out.length).concat(inter.slice(nInter), self.slice(nSelf));
     out = out.concat(inter.slice(0, nInter));

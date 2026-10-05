@@ -126,7 +126,7 @@
   E.papers = function (root) {
     const s = subj(), list = E.papersFor(s.id);
     const intro = s.id === 'evs'
-      ? 'These are the Discuss, Write and Find out questions from your book. <b>Say or write your own answer first</b>, then open the model answer and check yourself.'
+      ? 'The <b>Notebook</b> sets are the questions your teacher has already marked. The <b>Book</b> sets are the Discuss, Write and Find out questions from your textbook. <b>Say or write your own answer first</b>, then check yourself.'
       : 'These are the questions from your own papers. Try each one before you look at the hint. You get two tries on every question.';
     root.innerHTML = `<section class="card pad"><h2 class="h2">${s.papers.emoji} ${s.papers.title}</h2><p>${intro}</p></section>
       <div class="stack">${list.map(p => {

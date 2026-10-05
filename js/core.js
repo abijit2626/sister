@@ -15,7 +15,7 @@
       id: 'evs', name: 'EVS', emoji: '\uD83C\uDF3F', examDate: null, examDay: '',
       hello: 'I am Ollie the owl. Let\u2019s explore the mela, plants and animals from your EVS book.',
       mock: '20 questions from all 3 chapters',
-      papers: { label: 'Book Qs', title: 'Textbook Questions', blurb: 'The Discuss, Write and Find out questions', emoji: '\uD83D\uDCD6' }
+      papers: { label: 'Notebook', title: 'Notebook & Book Questions', blurb: 'Your notebook and textbook questions', emoji: '\uD83D\uDCD3' }
     }
   ];
   MB.subjectOf = function (id) { return MB.SUBJECTS.filter(function (s) { return s.id === id; })[0] || MB.SUBJECTS[0]; };

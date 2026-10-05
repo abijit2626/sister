@@ -6,7 +6,8 @@
   const TC = 'tc-mela';
 
   const WHO = [
-    { emoji: '👧', title: 'Nita and Radha', text: 'They are getting ready for the mela. They ask Dadiji to come with them.' },
+    { emoji: '🎪', title: 'What is a mela?', text: 'A mela is a <b>large fair</b>. People go there to have fun with their family and friends.' },
+    { emoji: '👧', title: 'Nita and Radha', text: 'They go to the mela to <b>enjoy with family</b>. They ask Dadiji to come with them.' },
     { emoji: '👵', title: 'Dadiji', text: 'The grandmother. Her legs hurt, but she agrees to come. She sits in a <b>seat reserved for older people</b> in the bus and gets a <b>wheelchair</b> at the mela.' },
     { emoji: '🧒', title: 'Sneha and Rohit', text: 'Nita’s <b>neighbours</b> and close friends. They go to the mela with Nita’s family.' },
     { emoji: '👨', title: 'Mohan Chacha', text: 'Nita’s <b>paternal uncle</b> (father’s brother). He and his family come by <b>train</b>, then take a city <b>bus</b> and an <b>autorickshaw</b> to the mela ground.' }
@@ -36,24 +37,29 @@
   const SAFETY = [
     { label: 'Sit on your seat in the bus', emoji: '🚌', cat: 'safe', why: 'Children were told to sit on their seats.' },
     { label: 'Jump around inside the bus', emoji: '🤸', cat: 'unsafe', why: 'Nita’s father asked the children not to jump around.' },
-    { label: 'Put your head out of the bus window', emoji: '😮', cat: 'unsafe', why: 'They were asked not to put their head or hands out of the window.' },
+    { label: 'Lean out of the bus window', emoji: '😮', cat: 'unsafe', why: 'Do not lean out. Keep your head and hands inside the bus.' },
     { label: 'Keep your hands inside the bus', emoji: '✋', cat: 'safe', why: 'Hands should not go out of the window.' },
+    { label: 'Disturb the bus driver', emoji: '🚕', cat: 'unsafe', why: 'Do not disturb the driver. He needs to watch the road.' },
+    { label: 'Follow traffic rules while travelling', emoji: '🚦', cat: 'safe', why: 'We should follow traffic rules while travelling.' },
     { label: 'Hold Dadiji’s hand and walk slowly', emoji: '👵', cat: 'safe', why: 'Nita led Dadiji slowly to the bus stop.' },
     { label: 'Watch the vehicles on both sides of the road', emoji: '👀', cat: 'safe', why: 'They kept an eye on vehicles moving in both directions.' },
     { label: 'Run across the road without looking', emoji: '🏃', cat: 'unsafe', why: 'We must walk carefully and watch the vehicles.' },
+    { label: 'Stay with your family in a crowded mela', emoji: '👪', cat: 'safe', why: 'In a crowd, stay with your family so you do not get lost.' },
+    { label: 'Push people in a crowd', emoji: '🙅', cat: 'unsafe', why: 'It is not safe to push people in a crowd.' },
     { label: 'Give the reserved seat to an older person', emoji: '💺', cat: 'safe', why: 'A seat was reserved for older people like Dadiji.' }
   ];
 
   const PLACES = [
     { emoji: '🗺️', title: 'Map of the mela', text: 'At the entrance. It shows the <b>stalls and where they are</b>.' },
-    { emoji: '🚑', title: 'Ambulance', text: 'Parked next to the map. It is there to help people who are hurt or ill.' },
-    { emoji: '🚒', title: 'Fire engine', text: 'Parked next to the map too. It is there in case there is a fire.' },
-    { emoji: '🚓', title: 'Police jeep', text: 'Parked next to the map. The police keep everyone safe.' },
-    { emoji: '🔎', title: 'Lost and Found booth', text: 'It has <b>volunteers</b>. They help people who are lost and help lost things get back to their owners.' },
+    { emoji: '👮', title: 'Police officers', text: 'Community helpers who <b>keep people safe</b> and maintain safety at the mela.' },
+    { emoji: '🚓', title: 'Police jeep', text: 'Parked next to the map. The police use it to keep everyone safe.' },
+    { emoji: '🐕', title: 'Police dog', text: 'It goes with the police officer. A police dog <b>helps the police by finding missing people and tracking criminals</b>.' },
+    { emoji: '🚑', title: 'Ambulance', text: 'Parked next to the map. An ambulance <b>helps sick or injured people</b>.' },
+    { emoji: '🚒', title: 'Fire engine', text: 'Parked next to the map. Fire engines are there to <b>handle emergencies</b>, like a fire.' },
+    { emoji: '🔎', title: 'Lost and Found booth', text: 'A place where people can <b>give items they have found</b> and <b>collect items they have lost</b>. It has volunteers.' },
     { emoji: '♿', title: 'Wheelchair', text: 'Mohan Chacha and Rohit hurried to get one for <b>Dadiji</b>.' },
     { emoji: '🚰', title: 'Water point', text: 'The children <b>washed their hands properly</b> here before eating.' },
-    { emoji: '🗑️', title: 'Dustbin', text: 'After eating, the children put <b>all the waste</b> in the dustbin.' },
-    { emoji: '🐕', title: 'Police dog', text: 'It was with the police officer as the children left the mela.' }
+    { emoji: '🗑️', title: 'Dustbin', text: 'After eating, the children put <b>all the waste</b> in the dustbin. We should throw waste into a dustbin.' }
   ];
 
   const KUMBH = [
@@ -119,29 +125,28 @@
     ], { hint: 'Think about what keeps you from getting hurt.', explain: 'Sit on your seat and keep your hands inside. Do not jump or put your head or hands out of the window.' }));
     q.push(G.order('Put these parts of the story in the right order.', [SEQ[0], SEQ[2], SEQ[3], SEQ[5], SEQ[6]], { hint: 'Start with getting ready and end with the police dog.', explain: 'They got ready, rode the bus, reached the mela, ate, and then saw the police dog.' }));
 
-    q.push(G.self('What is the purpose of the “Lost and Found” booth?', 'The Lost and Found booth has <b>volunteers</b> who help people who are <b>lost</b> to find their family, and help people get back things they have lost.'));
-    q.push(G.self('What is the role of the police dog?', 'The police dog goes with the police officer and <b>helps the police keep everyone safe</b>.'));
-    q.push(G.self('Why are fire engines and ambulances present in a mela?', 'A mela has a very big crowd. If there is a <b>fire</b>, the fire engine can help quickly. If someone is <b>hurt or ill</b>, the ambulance can help them.'));
-    q.push(G.self('Why should we follow safety rules when travelling by bus, car or bicycle?', 'Safety rules <b>keep us from getting hurt</b>. For example, in a bus we sit on our seats and keep our hands and head inside the window.'));
+    q.push(G.self('Why are fire engines and ambulances present in a mela?', 'A mela has a very big crowd. <b>Fire engines handle emergencies</b>, like a fire. An <b>ambulance helps sick or injured people</b>.'));
+    q.push(G.self('Why should we follow safety rules when travelling by bus, car or bicycle?', 'Safety rules <b>keep us from getting hurt</b>. In a bus we do not lean out of the window, we do not disturb the driver and we sit on our seats. We should also follow traffic rules.'));
     q.push(G.self('Why should we wash our hands properly before eating?', 'Our hands can have <b>dirt and germs</b>. Washing them properly keeps us <b>healthy</b> and stops us from falling ill.'));
     q.push(G.self('Write two things that Nita’s family and friends did to keep the mela clean and safe.', 'They <b>washed their hands</b> before eating and put all the <b>waste in the dustbin</b>. They also walked carefully and followed safety rules in the bus.'));
+    MB.NB.questions('mela').forEach(x => q.push(x));
     return q;
   }
 
   /* ---------- the lesson ---------- */
   function learn(root) {
     root.innerHTML =
-      UI.step(1, 'Meet the people', '<p>Tap each card to read about the family and friends.</p><div data-w="who"></div>') +
+      UI.step(1, 'The mela and the people', '<p>Tap each card to read about the mela, the family and the friends.</p><div data-w="who"></div>') +
       UI.step(2, 'The day at the mela', '<p>Follow the story from home to the mela. Tap <b>Next</b>. Tap 🔊 to hear it.</p><div data-w="story"></div>') +
       UI.step(3, 'Put the day in order', '<p>Which happened first? Tap the steps in order.</p><div data-w="seq"></div>') +
-      UI.step(4, 'Travel safely', '<p>Nita’s father and Rohit’s father taught the children how to stay safe. Is each thing <b>safe</b> or <b>not safe</b>?</p><div data-w="safe"></div>') +
-      UI.step(5, 'Places and helpers at the mela', '<p>Tap each place to find out what it is for.</p><div data-w="places"></div>') +
+      UI.step(4, 'Stay safe', '<p>Is each thing <b>safe</b> or <b>not safe</b>? Think about the bus, the road and the crowd at the mela.</p><div data-w="safe"></div><div class="callout"><b>Bus rules:</b> do not lean out of the window · do not disturb the driver · sit on your seat · follow traffic rules.</div>') +
+      UI.step(5, 'Places and helpers at the mela', '<p>Tap each place or helper to find out what it is for.</p><div data-w="places"></div><div class="callout"><b>For your notebook:</b><br>• The <b>Lost and Found booth</b> is a place where people give items they have found and collect items they have lost.<br>• The <b>police dog</b> helps the police by finding missing people and tracking criminals.</div>') +
       UI.step(6, 'Kumbh Mela', '<p>The book tells us about the world’s biggest festival.</p><div data-w="kumbh"></div>') +
       UI.step(7, 'Quick check', '<div data-w="try"></div>');
     W.cards($('[data-w=who]', root), WHO, { cols: 1 });
     W.story($('[data-w=story]', root), SCENES);
     W.orderGame($('[data-w=seq]', root), { seq: SEQ });
-    W.sortGame($('[data-w=safe]', root), { items: SAFETY, cats: [{ id: 'safe', label: 'Safe', emoji: '✅' }, { id: 'unsafe', label: 'Not safe', emoji: '⚠️' }], n: 8, noun: 'Rule', ask: 'Is it safe or not safe?' });
+    W.sortGame($('[data-w=safe]', root), { items: SAFETY, cats: [{ id: 'safe', label: 'Safe', emoji: '✅' }, { id: 'unsafe', label: 'Not safe', emoji: '⚠️' }], n: 10, noun: 'Rule', ask: 'Is it safe or not safe?' });
     W.cards($('[data-w=places]', root), PLACES, {});
     W.cards($('[data-w=kumbh]', root), KUMBH, { cols: 1 });
     W.tryIt($('[data-w=try]', root), () => G.pickMix(bank(), 3), TC);
